@@ -1,0 +1,20 @@
+*****************************
+* Lab 5 Synthesis Questions *
+*****************************
+Name(s):  Ryan Vu
+NetID(s): vurya22
+
+
+-----------------------------------------------------------
+1) Boundary Tag Size:  16 bytes
+   Reasoning: The address of the new block with the malloc statement of 16 was 0x50a6b0, the address of class_grades: 0x50a6d0, meaning there is a 32 byte difference. When I allocated 16 bytes, the address increment was 32 bytes, indicating an additional 16 bytes for metadata. This pattern held true when I allocated larger blocks, such as 40 bytes (Address of new_block: 0x4b76b0, Address of class_grades: 0x4b76e0) 48byte-32byte = 16byte, confirming that each block includes a 16-byte boundary tag. This consistent 16-byte increment, regardless of the allocated block size, confirms the boundary tag size.
+
+
+
+-----------------------------------------------------------
+2) Example or explanation of lack of benefit
+
+In mm_malloc, after finding a suitable free block, there is a check to see if the block is large enough to be split. If the selected free block is larger than the requested size by at least MIN_BLOCK_SIZE bytes, it gets split. The requested size is allocated, and the remaining portion is inserted back into the free list as its own free block. Knowing this, a user could aim to make allocation requests that are as close as possible to the actual sizes of free blocks in the heap. This would minimize the amount of splitting required and the resulting small free blocks that might be too small to be useful for future allocations. For example, if a user knows their application tends to free memory in 1KB chunks, they could aim to make allocations in sizes close to 1KB. This would allow the allocator to reuse the 1KB free blocks without splitting, leading to less fragmentation and more efficient use of the available free memory. By implementing malloc, I learned about the overhead associated with each memory allocation, such as the space required for headers, footers, and padding. This knowledge can guide decisions about allocation strategies.
+
+
+-----------------------------------------------------------
